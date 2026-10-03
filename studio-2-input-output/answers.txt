@@ -1,0 +1,11 @@
+1. When I ran cat, it waited for input from the keyboard. Each line I typed was immediately printed back to the terminal. Pressing Ctrl-D on a blank line sent EOF and caused cat to terminate.
+2. The < operator redirects standard input, so cat reads its input from mars.txt instead of from the keyboard. The contents of mars.txt are then written to standard output and displayed in the terminal.
+3. The < redirected standard input from mars.txt, and > redirected standard output into new.txt. As a result, new.txt contains a copy of the contents of mars.txt, and the output was not originally displayed in the terminal.
+4. cat took input from the keyboard, but > redirected its standard output to new.txt. The previous contents of new.txt were overwritten and replaced with the new lines I entered.
+5. Using >> appends the new output to the end of the file instead of overwriting its existing contents. Running the command multiple times continues adding new text to the end of new.txt.
+6. The header file needed to use the read() and write() system calls is <unistd.h>.
+7.
+8. The return type of read() is ssize_t. It returns the number of bytes read on success. A return value of 0 indicates the end of a file.
+9. Yes. After compiling and testing the program, its behavior matched cat. It repeatedly read data from standard input and wrote the bytes read to standard output until read() returned 0, indicating EOF.
+10. Changing bufferSize did not affect the correctness of the program. I tested a buffer size of 200 and a buffer size of 1, and both produced identical output. With a buffer size of 1, the program reads and writes only one byte at a time, so it requires many more read() and write() calls.
+11. A small buffer uses less memory but requires more read() and write() system calls, which adds overhead. A larger buffer uses more memory but can process more data with each system call, so fewer system calls are needed.
