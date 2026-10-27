@@ -1,0 +1,56 @@
+1. 
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#define bufferSize 200
+
+int main(int argc, char *argv[])
+{
+    char buffer[bufferSize];
+    ssize_t bytesRead;
+
+    // Ensure a filename was provided
+    if (argc != 2)
+    {
+        printf("Usage: %s <filename>\n", argv[0]);
+        return -1;
+    }
+
+    // Open the file in read-only mode
+    int fd = open(argv[1], O_RDONLY);
+
+    // Read from the opened file
+    while ((bytesRead = read(fd, buffer, bufferSize)) > 0)
+    {
+        // Print the contents to standard output
+        write(STDOUT_FILENO, buffer, bytesRead);
+    }
+
+    // Close the file
+    close(fd);
+
+    return 0;
+}
+
+2. The program prints nothing and exits with status 0, even though the file does not exist. This happens because open() fails but the program does not check its return value.
+3. Even after removing read and write permissions, the program still prints the file contents and exits with status 0. This may be because the file is stored on a Windows filesystem accessed through WSL.
+4. open() returns -1 when an error occurs and sets errno to indicate the cause of the error.
+5. if (fd == -1)
+{
+    printf("Error opening file\n");
+    return -1;
+}
+6. Error opening file: No such file or directory
+7.
+8. The program now prints "Error opening file: No such file or directory" and exits with a nonzero status because the error is detected and handled.
+9. The program still prints the contents of perm.txt and exits with status 0. This is likely because the file is stored on a Windows filesystem accessed through WSL, where Linux permissions may not be enforced in the usual way.
+10.
+open(): Returns -1 on error and sets errno.
+close(): Returns -1 on error and sets errno.
+read(): Returns -1 on error and sets errno.
+write(): Returns -1 on error and sets errno.
+printf(): Returns a negative value on error and sets errno.
+11.
+1. Error checking helps identify exactly where and why a program fails, making debugging easier.
+2. It prevents programs from continuing with invalid results, allowing errors to be handled safely instead of causing unexpected behavior.

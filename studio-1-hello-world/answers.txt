@@ -1,0 +1,37 @@
+1.
+2. #include <stdio.h>
+3. fprintf() takes an additional FILE *stream argument that specifies
+the output stream, while printf() does not.
+4. printf() writes output to stdout, while fprintf() writes output to
+the stream specified by its stream argument.
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-1-hello-world$ ./hello_fprintf
+Hello, world!
+6. Section 2
+7. #include <unistd.h>
+// C library I/O
+#include <stdio.h>
+fprintf(stdout, "Hello, world!\n");
+
+// Linux system call
+#include <unistd.h>
+write(STDOUT_FILENO, "Hello, world!\n", 14);
+8. 
+9. 
+// Samannita Halder
+// September 28, 2026
+// Prints a Hello World message using the Linux write() system call
+
+#include <unistd.h>
+
+int main(int argc, char* argv[]) {
+
+    write(STDOUT_FILENO, "Hello, world!\n", 14);
+
+    return 0;
+}
+10. When the third argument is much larger than the actual buffer, write() attempts to write that many bytes starting from the buffer's address. Since the buffer does not contain that many valid bytes, it reads beyond the buffer. This is undefined behavior and may print garbage or unrelated memory contents, or otherwise behave unpredictably.
+11. I would use a C library function when I want portable, convenient code that can work across different operating systems, such as using fprintf() for formatted output. I would use an OS system call when I need lower-level control or direct access to operating-system functionality, such as using write() to write bytes directly to a file descriptor.
+12. Created hello.sh:
+
+#!/bin/bash
+echo "Hello World!"
