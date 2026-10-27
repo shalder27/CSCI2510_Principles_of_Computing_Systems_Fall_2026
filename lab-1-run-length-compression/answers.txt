@@ -1,0 +1,42 @@
+# Lab 1 – Run-Length Compression
+## Written Questions and Answers
+
+**1. Who worked on this lab?**
+
+I completed this lab individually.
+
+**2. Give examples of data that compresses well and poorly using run-length encoding.**
+
+Run-length encoding works well on data containing long sequences of repeated values, such as `AAAAAAAAAABBBBBBBBBB`, because repeated characters can be represented using a count and a pattern.
+
+It works poorly on random data, such as `ABCDEFGH12345678`, because there are very few consecutive repetitions. The additional counter bytes can make the compressed file larger than the original.
+
+**3. What are the compression ratios for the three million-byte files?**
+
+Compression ratio = Original file size / Compressed file size.
+
+| File | Original size (bytes) | Compressed size (bytes) | Compression ratio |
+|---|---:|---:|---:|
+| 1mil_random | 1,000,000 | 1,598,828 | 0.6255 |
+| 1mil_weak_bias | 1,000,000 | 851,464 | 1.1744 |
+| 1mil_strong_bias | 1,000,000 | 409,084 | 2.4445 |
+
+The strongly biased file achieved the highest compression ratio because it contained more consecutive repeated patterns. The random file increased in size because the additional counters outweighed any compression.
+
+**4. What is the execution time for compressing test4 with a compression length of 1?**
+
+Command: `time ./rle test4 output 1 0`
+
+Measured real execution time: **3.331 seconds**.
+
+**5. What is the execution time for compressing test4 with a compression length of 10? Explain the difference.**
+
+Command: `time ./rle test4 output 10 0`
+
+Measured real execution time: **0.348 seconds**.
+
+Using a compression length of 10 was approximately 9.57 times faster than using a length of 1. This is because the program processes larger patterns and performs fewer read and write operations, reducing system call overhead. However, larger patterns may be less likely to repeat, which can reduce compression effectiveness.
+
+**6. Did you attempt the extra credit?**
+
+No, I did not attempt the extra credit.
