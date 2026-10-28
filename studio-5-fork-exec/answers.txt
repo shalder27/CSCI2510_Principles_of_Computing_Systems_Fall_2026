@@ -1,0 +1,83 @@
+Exercise 1:
+
+Run 1: Process PID: 889
+Run 2: Process PID: 895
+Run 3: Process PID: 901
+
+Each execution has a different PID because the operating system
+assigns a unique process identifier to each new process.
+
+Exercise 2:
+
+Process PID: 986
+Process PID: 987
+
+The program prints twice because fork() creates a child process.
+Both the parent and child execute the code after fork(), and each
+process has its own unique PID.
+Exercise 3:
+
+fork() returns 0 in the child process and the child's PID
+(a positive integer) in the parent process.
+
+If fork() fails, it returns -1 in the parent process,
+and no child process is created.
+Exercise 4:
+
+Parent process PID: 1131
+Child process PID: 1132
+
+The parent process receives the child's PID as the return value
+of fork(), while the child receives 0. This allows the program
+to identify which process is the parent and which is the child.
+Exercise 5:
+
+Parent process PID: 1229
+[Terminal prompt appeared]
+Child process PID: 1230
+
+The parent prints its PID and terminates immediately without
+waiting for the child. The terminal prompt appears before the
+child prints its PID because the child is sleeping for 3 seconds.
+
+This is expected because the parent and child execute independently,
+but it is undesirable when the parent needs the child to finish first.
+
+Exercise 6:
+
+Child process PID: 1337
+Parent process PID: 1336
+
+Unlike Exercise 5, the parent now waits for the child to finish
+before printing its own PID. The child sleeps for 3 seconds,
+prints its PID, and terminates. Then the parent resumes execution
+after waitpid() and prints its PID.
+
+The terminal prompt appears only after both processes finish.
+
+Exercise 7:
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-5-fork-exec$ ls -l
+total 32
+-rwxrwxrwx 1 shalder shalder  6079 Oct 27 13:31 README.md
+-rwxrwxrwx 1 shalder shalder  1704 Oct 27 22:43 answers.txt
+-rwxrwxrwx 1 shalder shalder 16168 Oct 27 22:42 fork
+-rwxrwxrwx 1 shalder shalder   670 Oct 27 22:42 fork.c
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-5-fork-exec$ 
+
+Exercise 8:
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-5-fork-exec$ gcc -Wall -Wextra fork.c -o fork
+./fork
+total 32
+-rwxrwxrwx 1 shalder shalder  6079 Oct 27 13:31 README.md
+-rwxrwxrwx 1 shalder shalder  1704 Oct 27 22:43 answers.txt
+-rwxrwxrwx 1 shalder shalder 16216 Oct 27 22:44 fork
+-rwxrwxrwx 1 shalder shalder   833 Oct 27 22:44 fork.c
+Parent process PID: 1447
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-5-fork-exec$ 
+
+The child process uses execvp() to replace its program with
+the ls -l command. The parent waits for the child to finish
+using waitpid(), then prints its own PID.
+
+The directory listing appears before the parent's PID because
+the parent waits until the child process terminates.
