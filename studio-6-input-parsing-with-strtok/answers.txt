@@ -1,0 +1,72 @@
+
+CSCI 2510 - Studio 6
+Parsing String Input
+
+Exercise 1:
+Program reads input using fgets() and prints it.
+
+Example output:
+Enter input: Hello World
+Hello World
+
+Exercise 2:
+The first call to strtok() takes the input string
+as its first argument. Subsequent calls use NULL
+to continue parsing the same string.
+
+Exercise 3:
+Use a space (" ") as the delimiter for regular
+text input.
+
+Exercise 4:
+Code:
+char *token = strtok(buffer, " ");
+printf("%s\n", token);
+
+Example output:
+Enter input: Hello World
+Hello
+
+Exercise 5:
+Code:
+char *token = strtok(buffer, " ");
+while (token != NULL) {
+    printf("%s\n", token);
+    token = strtok(NULL, " ");
+}
+
+Example output:
+Enter input: Hello World from C
+Hello
+World
+from
+C
+
+Exercise 6:
+Code:
+buffer[strcspn(buffer, "\n")] = '\0';
+
+Exercise 7:
+(No answer required.)
+
+Exercise 8:
+cmd = strtok(buffer, " \t");
+
+Exercise 9:
+my_argv[0] = cmd;
+
+int i = 1;
+char *res;
+
+while (i <= max_args &&
+       (res = strtok(NULL, " \t")) != NULL) {
+    my_argv[i] = res;
+    i++;
+}
+
+my_argv[i] = NULL;
+
+Exercise 10:
+Example output:
+Enter a command: echo Hello World
+Hello World
