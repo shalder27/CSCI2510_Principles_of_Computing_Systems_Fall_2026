@@ -1,0 +1,49 @@
+
+CSCI 2510 - Studio 7: Pipes
+
+Exercise 1:
+Program 1: See print.c
+Program 2: See input.c
+
+Exercise 2:
+Before connecting the programs using a pipe,
+Program 1 prints its output and terminates.
+Program 2 waits for input from standard input.
+The parent waits for both children.
+
+Exercise 3:
+fd[0] is the read end of the pipe.
+fd[1] is the write end of the pipe.
+
+Exercise 4:
+The second argument (newfd) of dup2() is
+closed if it is already open, unless oldfd
+and newfd are the same descriptor.
+
+Exercise 5:
+Program 1:
+dup2(fd[1], STDOUT_FILENO);
+
+Program 2:
+dup2(fd[0], STDIN_FILENO);
+
+Exercise 6:
+Program 2 got: Program 1 output line
+
+The program does not terminate because
+the pipe still has an open write end.
+
+Exercise 7:
+Program 2 got: Program 1 output line
+
+After closing unused pipe descriptors,
+Program 2 receives EOF and terminates.
+The parent then finishes waiting and exits.
+
+Exercise 8:
+1. Modularity: Programs can communicate without
+   knowing the source or destination of data.
+
+2. Reusability: Programs can work with different
+   input and output sources without modifying
+   their code.
