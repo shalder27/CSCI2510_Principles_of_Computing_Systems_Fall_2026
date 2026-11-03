@@ -5,12 +5,17 @@ Exercise 1:
 The sleep.c program runs continuously and prints the number of
 iterations it has slept. Pressing CTRL+C terminates the program.
 
-Sample output:
-Sleeper's PID is: 12345
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-8-signals$ ./sleeper
+Sleeper's PID is: 466
 Slept for 0 iterations!
 Slept for 1 iterations!
 Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+Slept for 6 iterations!
 ^C
+shalder@ITS-4SRFGB3:/mnt/c/Users/shalder/OneDrive - Saint Louis University/Desktop/CSCI2510/CSCI2510_Principles_of_Computing_Systems_Fall_2026/studio-8-signals$ 
 
 Exercise 2:
 SIGINT has signal number 2.
@@ -18,26 +23,40 @@ Associated comment: Interrupt from keyboard.
 Default action: Terminate.
 
 Exercise 3:
-Command: kill -s 2 <PID>
+I started the sleeper process with PID 572.
 
-The sleeper process terminates when SIGINT is sent to it.
-This is because the default action of SIGINT is termination.
+Command: kill -s 2 572
+
+The sleeper process terminated after receiving SIGINT.
+SIGINT has a default action of terminating the process.
 
 Exercise 4:
-I chose SIGTERM, signal number 15.
+I chose SIGTERM (signal number 15).
 
-Command: kill -s 15 <PID>
+Command: kill -s 15 693
 
-Result: The sleeper process terminated because SIGTERM
-has a default action of terminating the process.
+The sleeper process terminated after receiving SIGTERM.
+The default action of SIGTERM is to terminate the process.
 
 Exercise 5:
-Before installing a custom signal handler, pressing CTRL+C
-terminates both the sleeper and the caller because both
-processes receive SIGINT.
+When I pressed CTRL+C without a custom signal handler,
+both the sleeper and caller processes terminated because
+both received SIGINT.
 
-The calling program does not print its success message
-because it also terminates.
+Output:
+Forking sleeper...
+Waiting for sleeper 832...
+Sleeper's PID is: 832
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+^C
+
+The caller did not print its success message because it
+was also terminated by SIGINT.
 
 Exercise 6:
 I created a custom signal handler to handle SIGINT.
