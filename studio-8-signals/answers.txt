@@ -1,0 +1,81 @@
+
+CSCI 2510 - Studio 8: Signals
+
+Exercise 1:
+The sleep.c program runs continuously and prints the number of
+iterations it has slept. Pressing CTRL+C terminates the program.
+
+Sample output:
+Sleeper's PID is: 12345
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+^C
+
+Exercise 2:
+SIGINT has signal number 2.
+Associated comment: Interrupt from keyboard.
+Default action: Terminate.
+
+Exercise 3:
+Command: kill -s 2 <PID>
+
+The sleeper process terminates when SIGINT is sent to it.
+This is because the default action of SIGINT is termination.
+
+Exercise 4:
+I chose SIGTERM, signal number 15.
+
+Command: kill -s 15 <PID>
+
+Result: The sleeper process terminated because SIGTERM
+has a default action of terminating the process.
+
+Exercise 5:
+Before installing a custom signal handler, pressing CTRL+C
+terminates both the sleeper and the caller because both
+processes receive SIGINT.
+
+The calling program does not print its success message
+because it also terminates.
+
+Exercise 6:
+I created a custom signal handler to handle SIGINT.
+
+void handle_sigint(int signum) {
+    const char msg[] = "Parent is ignoring SIGINT!\n";
+    write(STDOUT_FILENO, msg, sizeof(msg) - 1);
+}
+
+The handler is registered in main() using:
+
+signal(SIGINT, handle_sigint);
+
+Exercise 7:
+
+After installing the custom SIGINT handler, pressing CTRL+C
+terminates the sleeper but allows the parent to continue.
+
+Output:
+Forking sleeper...
+Waiting for sleeper 663...
+Sleeper's PID is: 663
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+Slept for 6 iterations!
+Slept for 7 iterations!
+Slept for 8 iterations!
+Slept for 9 iterations!
+^CParent is ignoring SIGINT!
+Parent finished waiting and returned successfully!
+
+Exercise 8:
+Signal handling is useful when a child process terminates.
+The operating system sends SIGCHLD to its parent process.
+The parent can handle this signal and use waitpid() to
+collect the child's exit status without continuously
+checking whether the child has finished.

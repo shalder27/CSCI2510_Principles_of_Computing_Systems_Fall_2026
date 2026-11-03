@@ -1,40 +1,51 @@
-//A simple program that fork()s and exec()s the ./sleep program
 
-#include <unistd.h> //fork(), execvp(), perror(), waidpid() 
-#include <stdlib.h> //For exit()
-#include <stdio.h> //For printf()
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-int main( int argc, char* argv[] ){
+// Custom signal handler for SIGINT
+void handle_sigint(int signum) {
+    const char msg[] = "Parent is ignoring SIGINT!\n";
+    write(STDOUT_FILENO, msg, sizeof(msg) - 1);
+}
 
-	pid_t ret;
+int main(int argc, char* argv[]) {
+    pid_t ret;
 
-	printf("Forking sleeper...\n");	
+    // Parent handles SIGINT without terminating
+    signal(SIGINT, handle_sigint);
 
-	ret = fork();
-	if( ret == -1 ){
-		perror("Could not fork");
-		exit(-1);
-	} 
+    printf("Forking sleeper...\n");
+    fflush(stdout);
 
-	if( ret == 0 ){ //Child
-		int exec_ret;
-		char* cmd = "./sleep";
-		char* myargv[] = {"sleep", NULL};
-		exec_ret = execvp( cmd, myargv );
-		if( exec_ret == -1 ){
-			perror("Error calling execvp");
-			exit(-1);
-		}
+    ret = fork();
 
+    if (ret == -1) {
+        perror("Could not fork");
+        exit(EXIT_FAILURE);
+    }
 
-	}
+    if (ret == 0) {
+        // Child executes sleeper
+        char* cmd = "./sleeper";
+        char* myargv[] = {"sleeper", NULL};
 
-	//Parent
-	printf("Waiting for sleeper %d...\n", ret);
-	waitpid( ret, NULL, 0 );
+        execvp(cmd, myargv);
 
-	printf("Parent finished waiting and returned successfully!\n");
+        perror("Error calling execvp");
+        exit(EXIT_FAILURE);
+    }
 
+    // Parent waits for child
+    printf("Waiting for sleeper %d...\n", ret);
+    fflush(stdout);
 
-	return 0;
+    waitpid(ret, NULL, 0);
+
+    printf("Parent finished waiting and returned successfully!\n");
+
+    return 0;
 }
