@@ -1,0 +1,14 @@
+
+1. Describe any known bugs or ways that your submission deviates from the specification.
+
+The shell implements the required functionality, including command execution,
+backward pipelines, built-in cd, syntax error handling, Ctrl+C handling,
+and EOF termination. No known bugs were observed during the completed tests.
+Input lines are limited to 256 characters, and each command supports at most
+15 arguments, as permitted by the specification.
+
+2. Indicate which, if any, extra credit exercises you have attempted.
+
+I implemented the 5% extra credit exercise that displays the current
+working directory in the SLUSH prompt. When the directory is inside the
+user's home directory, the prompt displays the path relative to HOME.
